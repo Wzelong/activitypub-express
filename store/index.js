@@ -238,6 +238,7 @@ class ApexStore extends IApexStore {
     const count = this.db
       .collection('streams')
       .countDocuments({ '_meta.collection': collectionId })
+    console.log(count)
     return count
   }
 
