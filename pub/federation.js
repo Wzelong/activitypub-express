@@ -125,7 +125,7 @@ async function runDelivery () {
   try {
     const { actorId, body, address, signingKey } = toDeliver
     const result = await this.deliver(actorId, body, address, signingKey)
-    this.logger.info('delivery:', address, result.statusCode)
+    // this.logger.info('delivery:', address, result.statusCode)
     if (result.statusCode >= 500) {
       // 5xx errors will get requeued
       throw new Error(`Request status ${result.statusCode}`)

@@ -60,11 +60,11 @@ async function verifySignature (req, res, next) {
     let cached = true
     let signer = await apex.resolveObject(sigHead.keyId, false, false, true)
     if ((type === 'delete' || type === 'update') && (!signer || signer.type.toLowerCase() === 'tombstone')) {
-      console.log('Ignoring unverifiable %s from %s', type, req.body.actor)
+      // console.log('Ignoring unverifiable %s from %s', type, req.body.actor)
       // user delete message that can't be verified because we don't have the user cached
       return res.status(200).send()
     } else if (!signer) {
-      console.log('Fetching actor to verify signature %s', sigHead.keyId)
+      // console.log('Fetching actor to verify signature %s', sigHead.keyId)
       cached = false
       signer = await apex.resolveObject(sigHead.keyId)
     }
@@ -73,7 +73,7 @@ async function verifySignature (req, res, next) {
     }
     let valid = validator(signer.publicKey[0].publicKeyPem[0])
     if (!valid && cached) {
-      console.log('Refreshing key for %s', sigHead.keyId)
+      // console.log('Refreshing key for %s', sigHead.keyId)
       // try refreshing cached key in case of key rotation
       signer = await apex.resolveObject(sigHead.keyId, false, true)
       valid = validator(signer.publicKey[0].publicKeyPem[0])
