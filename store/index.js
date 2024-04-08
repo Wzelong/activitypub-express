@@ -243,18 +243,28 @@ class ApexStore extends IApexStore {
   */
   getStreamCount(collectionId) {
     const publicAddress = "as:Public"; // The public address you're checking for in the audience fields
-    const query = {
+  
+    // Parse the collectionId to check if the last segment is "outbox"
+    const segments = collectionId.split('/');
+    const isOutbox = segments[segments.length - 1] === 'outbox';
+  
+    // Base query condition
+    let query = {
       '_meta.collection': collectionId,
-      $or: [
-        { '_meta.isPublic': true }, // Directly public based on the isPublic flag
+    };
+  
+    // Apply additional filters if the last segment is "outbox"
+    if (isOutbox) {
+      query.$or = [
+        { '_meta.isPublic': true }, // Activities explicitly marked as public
+        // Include the public address in any of the audience fields
         { 'to': publicAddress },
         { 'bto': publicAddress },
         { 'cc': publicAddress },
         { 'bcc': publicAddress },
         { 'audience': publicAddress }
-      ]
-    };
-  
+      ];
+    }
     return this.db.collection('streams').countDocuments(query);
   }
   

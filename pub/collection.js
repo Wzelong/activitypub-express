@@ -51,7 +51,7 @@ async function getCollection (collectionId, page, remapper, includePrivate, bloc
   if (!page) {
     // if page isn't specified, just collection description is served
     const totalItems = await this.store.getStreamCount(collectionId)
-    console.log('totalItems', totalItems)
+    console.log(collectionId, totalItems)
     return this.buildCollection(collectionId, true, totalItems)
   }
   let after = page
