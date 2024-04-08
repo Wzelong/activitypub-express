@@ -63,7 +63,6 @@ async function getCollection (collectionId, page, remapper, includePrivate, bloc
     limit = null
   }
   let stream = await this.store.getStream(collectionId, limit, after, blockList, query)
-  console.log(stream);
   const pageObj = await this.buildCollectionPage(
     collectionId,
     page,
