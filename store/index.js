@@ -235,11 +235,9 @@ class ApexStore extends IApexStore {
   }
 
   getStreamCount (collectionId) {
-    const count = this.db
+    return this.db
       .collection('streams')
       .countDocuments({ '_meta.collection': collectionId })
-    console.log(count)
-    return count
   }
 
   getUserCount () {
