@@ -234,11 +234,30 @@ class ApexStore extends IApexStore {
     return result.toArray().then(stream => unescape(stream))
   }
 
+  /*
   getStreamCount (collectionId) {
     return this.db
       .collection('streams')
       .countDocuments({ '_meta.collection': collectionId })
   }
+  */
+  getStreamCount(collectionId) {
+    const publicAddress = "as:Public"; // The public address you're checking for in the audience fields
+    const query = {
+      '_meta.collection': collectionId,
+      $or: [
+        { '_meta.isPublic': true }, // Directly public based on the isPublic flag
+        { 'to': publicAddress },
+        { 'bto': publicAddress },
+        { 'cc': publicAddress },
+        { 'bcc': publicAddress },
+        { 'audience': publicAddress }
+      ]
+    };
+  
+    return this.db.collection('streams').countDocuments(query);
+  }
+  
 
   getUserCount () {
     return this.db
