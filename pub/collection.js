@@ -48,14 +48,12 @@ async function buildCollectionPage (collectionId, page, isOrdered, lastItemId) {
  */
 async function getCollection (collectionId, page, remapper, includePrivate, blockList, query) {
   collectionId = this.objectIdFromValue(collectionId)
-  /*
   if (!page) {
     // if page isn't specified, just collection description is served
     const totalItems = await this.store.getStreamCount(collectionId)
     // console.log(collectionId, totalItems)
     return this.buildCollection(collectionId, true, totalItems)
   }
-  */
   let after = page
   let limit = this.itemsPerPage
   if (page === 'true') {
